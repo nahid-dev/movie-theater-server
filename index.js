@@ -14,6 +14,8 @@ app.get("/", (req, res) => {
   res.send("Movie Theater Server Is Running");
 });
 
+// Hello
+
 // MongoDB all code HERE================
 
 const { MongoClient, ServerApiVersion } = require("mongodb");
