@@ -35,9 +35,8 @@ async function run() {
 
     // ALL MY COLLECTION NAME HERE:
     const moviesCollection = client.db("movieServer").collection("movieList");
-    const movieNewsCollection = client
-      .db("movieServer")
-      .collection("movieNewsList");
+    const movieNewsCollection = client.db("movieServer").collection("movieNewsList");
+    const userCollection = client.db("movieServer").collection("userList");
 
     // ALL MOVIES API
     app.get("/movieList", async (req, res) => {
@@ -57,6 +56,23 @@ async function run() {
       const result = await movieNewsCollection.findOne(query);
       res.send(result)
     });
+
+    // USER STORE API
+    app.get('/users', async (req, res) => {
+      const userList = await userCollection.find().toArray();
+      res.send(userList);
+    })
+
+    app.post('/users', async (req, res) => {
+      const user = req.body;
+      const query = { email: user.email }
+      const existingUser = await userCollection.findOne(query)
+      if (existingUser) {
+        return res.send({ message: 'user already exists' })
+      }
+      const result = await userCollection.insertOne(user)
+      res.send(result)
+    })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
