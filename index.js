@@ -58,10 +58,25 @@ async function run() {
     });
 
     // USER STORE API
-    app.get('/users', async (req, res) => {
-      const userList = await userCollection.find().toArray();
-      res.send(userList);
+    app.get('/specificUser', async (req, res) => {
+      const email = req.query.email;
+      const query = { email: email }
+      const result = await userCollection.findOne(query);
+      res.send(result)
     })
+
+    app.get('/users', async (req, res) => {
+      const result = await userCollection.find().toArray();
+      res.send(result)
+    })
+
+    app.get('/users/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) }
+      const result = await userCollection.findOne(query)
+      res.send(result)
+    })
+
 
     app.post('/users', async (req, res) => {
       const user = req.body;
@@ -71,6 +86,22 @@ async function run() {
         return res.send({ message: 'user already exists' })
       }
       const result = await userCollection.insertOne(user)
+      res.send(result)
+    })
+
+    app.put('/users/:id', async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateUser = req.body;
+      const user = {
+        $set: {
+          name: updateUser.name,
+          mobile: updateUser.mobile,
+          gender: updateUser.gender
+        }
+      }
+      const result = await userCollection.updateOne(filter, user, options)
       res.send(result)
     })
 
