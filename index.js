@@ -45,6 +45,23 @@ async function run() {
       res.send(movieList);
     });
 
+    // All LATEST MOVIES API
+    app.get("/latestMovies", async (req, res) => {
+      const latestMovies = await moviesCollection.find().limit(6).toArray();
+      res.send(latestMovies);
+    });
+
+    app.post("/addMovie", async (req, res) => {
+      const newMovie = req.body;
+      const query = { name: newMovie.name };
+      const existingMovie = await moviesCollection.findOne(query);
+      if (existingMovie) {
+        return res.send({ message: "Movie already Added!" });
+      }
+      const result = await moviesCollection.insertOne(newMovie);
+      res.send(result);
+    });
+
     // ALL MOVIE NEWS API
     app.get("/movieNewsList", async (req, res) => {
       const movieNewsList = await movieNewsCollection.find().toArray();
