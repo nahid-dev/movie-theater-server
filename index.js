@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
 
 // MongoDB all code HERE================
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.7rh25i5.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -38,6 +38,7 @@ async function run() {
     const movieNewsCollection = client
       .db("movieServer")
       .collection("movieNewsList");
+    const showingMovies = client.db("movieServer").collection("nowShowing");
 
     // ALL MOVIES API
     app.get("/movieList", async (req, res) => {
@@ -51,6 +52,20 @@ async function run() {
       res.send(latestMovies);
     });
 
+    app.get("/movieDetails/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await moviesCollection.findOne(query);
+      res.send(result);
+    });
+
+    app.get("/addShowtime/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await moviesCollection.findOne(query);
+      res.send(result);
+    });
+
     app.post("/addMovie", async (req, res) => {
       const newMovie = req.body;
       const query = { name: newMovie.name };
@@ -59,6 +74,17 @@ async function run() {
         return res.send({ message: "Movie already Added!" });
       }
       const result = await moviesCollection.insertOne(newMovie);
+      res.send(result);
+    });
+
+    app.post("/addShowtimeMovie", async (req, res) => {
+      const newShowtime = req.body;
+      const query = { name: newShowtime.name };
+      const existShowtime = await showingMovies.findOne(query);
+      if (existShowtime) {
+        return res.send({ message: "Movie already Added!" });
+      }
+      const result = await showingMovies.insertOne(newShowtime);
       res.send(result);
     });
 
