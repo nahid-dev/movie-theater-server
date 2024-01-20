@@ -77,6 +77,10 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/nowShowingMovies", async (req, res) => {
+      const nowShowingMovies = await showingMovies.find().toArray();
+      res.send(nowShowingMovies);
+    });
     app.post("/addShowtimeMovie", async (req, res) => {
       const newShowtime = req.body;
       const query = { name: newShowtime.name };
