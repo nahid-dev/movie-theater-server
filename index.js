@@ -88,8 +88,16 @@ async function run() {
       if (existShowtime) {
         return res.send({ message: "Movie already Added!" });
       }
+      const movieId = req.body.movieId;
+      const filter = { _id: new ObjectId(movieId) };
+      const updateDocument = {
+        $set: {
+          status: true,
+        },
+      };
+      const result2 = await moviesCollection.updateOne(filter, updateDocument);
       const result = await showingMovies.insertOne(newShowtime);
-      res.send(result);
+      res.send({ result, result2 });
     });
 
     // ALL MOVIE NEWS API
