@@ -108,6 +108,11 @@ async function run() {
       res.send(result);
     });
 
+    // SEAT SELECT API HERE:
+    app.post("/selectSeat/:seatNumber", async (req, res) => {
+      const seatNumber = req.
+    })
+
     // ALL MOVIE NEWS API
     app.get("/movieNewsList", async (req, res) => {
       const movieNewsList = await movieNewsCollection.find().toArray();
