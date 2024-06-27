@@ -111,6 +111,7 @@ async function run() {
     // SEAT SELECT API HERE:
     app.post("/selectSeat/:seatNumber", async (req, res) => {
       const seatNumber = req.
+      console.log(res);
     })
 
     // ALL MOVIE NEWS API
