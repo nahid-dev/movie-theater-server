@@ -102,29 +102,43 @@ async function run() {
 
     // ALL MOVIE BOOKING API'S HERE
     app.get("/bookingSeats/:id", async (req, res) => {
-      const id = req.params;
-      const query = { _id: new ObjectId(id) };
-      const result = await showingMovies.findOne(query);
-      res.send(result);
+      try {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+        const result = await showingMovies.findOne(query);
+        res.send(result);
+      } catch (error) {
+        console.error(error);
+        res
+          .status(500)
+          .send("An error occurred while fetching the booking seats.");
+      }
     });
+    app.get("/bookingSeats/:id/showtime/:showtime", async (req, res) => {
+      try {
+        const id = req.params.id;
+        const showtime = req.params.showtime;
+        const query = { _id: new ObjectId(id), "booking_time.time": showtime };
+        const projection = { "booking_time.$": 1 };
+        const result = await showingMovies.findOne(query, { projection });
 
-    // SEAT SELECT API HERE:
-    app.post("/selectSeat/:seatNumber", async (req, res) => {
-      const seatNumber = req.
-      console.log(res);
-    })
+        if (!result) {
+          return res
+            .status(404)
+            .send({ message: "Movie or showtime not found" });
+        }
+
+        res.send(result.booking_time[0]);
+      } catch (error) {
+        console.error(error.message);
+        res.status(500).send({ message: "Internal Server Error" });
+      }
+    });
 
     // ALL MOVIE NEWS API
     app.get("/movieNewsList", async (req, res) => {
       const movieNewsList = await movieNewsCollection.find().toArray();
       res.send(movieNewsList);
-    });
-
-    app.get("/movieNewsList/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: new ObjectId(id) };
-      const result = await movieNewsCollection.findOne(query);
-      res.send(result)
     });
 
     // Send a ping to confirm a successful connection
