@@ -1,3 +1,11 @@
+const express = require("express");
+const router = express.Router();
+
+
+router.get("/", async(req, res)=>{
+    res.send("ok")
+})
+
 
 //     // ALL MY COLLECTION NAME HERE:
 //     const moviesCollection = client.db("movieServer").collection("movieList");
@@ -45,3 +53,5 @@
 //       const nowShowingMovies = await showingMovies.find().toArray();
 //       res.send(nowShowingMovies);
 //     });
+
+module.exports = router

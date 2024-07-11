@@ -1,3 +1,12 @@
+const express = require("express");
+const router = express.Router();
+// const Admin = require("../models/Admin");
+
+
+router.get("/", async(req, res)=>{
+    res.send("ok")
+})
+
 //     // ALL MOVIE BOOKING API'S HERE
 //     app.get("/bookingSeats/:id", async (req, res) => {
 //       const id = req.params;
@@ -11,3 +20,6 @@
 //       const seatNumber = req.
 //       console.log(res);
 //     })
+
+
+module.exports = router

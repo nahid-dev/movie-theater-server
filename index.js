@@ -26,6 +26,12 @@ app.get("/", (req, res) => {
   res.send(`Express Server is Running at Port ${port}`);
 });
 
+
+app.use("/admin", AdminHandler)
+app.use("/user", UserHandler)
+app.use("/movie", MovieHandler)
+app.use("/ticket", TicketHandler)
+
 app.listen(port, () => {
   console.log(`Movie theater server running on ${port}`);
 });

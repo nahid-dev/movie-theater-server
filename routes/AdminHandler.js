@@ -1,3 +1,12 @@
+const express = require("express");
+const router = express.Router();
+// const Admin = require("../models/Admin");
+
+
+router.get("/", async(req, res)=>{
+    res.send("ok")
+})
+
 //     app.post("/addMovie", async (req, res) => {
 //       const newMovie = req.body;
 //       const query = { name: newMovie.name };
@@ -28,3 +37,6 @@
 //       const result = await showingMovies.insertOne(newShowtime);
 //       res.send({ result, result2 });
 //     });
+
+
+module.exports = router;
