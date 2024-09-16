@@ -12,7 +12,6 @@ app.use(cors({
   credentials: true
 }));
 
-
 // MongoDB connection 
 require('./configs/DBConfig.js')
 
@@ -25,7 +24,6 @@ const MovieHandler = require('./routes/MovieHandler.js');
 app.get("/", (req, res) => {
   res.send(`Express Server is Running at Port ${port}`);
 });
-
 
 app.use("/admin", AdminHandler)
 app.use("/user", UserHandler)
