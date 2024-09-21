@@ -1,4 +1,5 @@
 const express = require("express");
+const Movie = require("../models/Movie");
 const router = express.Router();
 
 
@@ -8,8 +9,9 @@ router.get("/", async (req, res) => {
 
 // ALL MOVIES API
 router.get("/movieList", async (req, res) => {
-    const movieList = await moviesCollection.find().toArray();
-    res.send(movieList);
+    const resut = Movie.find({})
+    console.log(resut);
+    
 });
 
 // All LATEST MOVIES API
