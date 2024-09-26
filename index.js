@@ -33,11 +33,3 @@ app.use("/ticket", TicketHandler)
 app.listen(port, () => {
   console.log(`Movie theater server running on ${port}`);
 });
-
-
-//     app.get("/addShowtime/:id", async (req, res) => {
-//       const id = req.params.id;
-//       const query = { _id: new ObjectId(id) };
-//       const result = await moviesCollection.findOne(query);
-//       res.send(result);
-//     });
